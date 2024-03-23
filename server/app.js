@@ -1,19 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const mongoose = require("mongoose");
+require('dotenv').config();
 
 app.use(cors());
-// body-parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//mongoose
-const mongoose = require("mongoose");
 
-//connect mongoose
-mongoose.connect('mongodb://127.0.0.1:27017/booking')
+mongoose.connect(process.env.DB_URL)
   .then(() => console.log('Connected mongodb succesfully!'))
-  .then((result) => app.listen(5001, (req, res) => {
-    console.log("Server is running on port 5001");
+  .then((result) => app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
   }))
   .catch((error) => console.log(error));
